@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { VerifyScreen } from './components/VerifyScreen';
+import { QuickPatientForm, QuickPatientFormData } from './components/QuickPatientForm';
+import { EmergencyGuidance } from './components/EmergencyGuidance';
 import { MedicineUpload } from './components/MedicineUpload';
 import { EventTimeline } from './components/EventTimeline';
 import { ThankYouScreen } from './components/ThankYouScreen';
@@ -8,7 +10,7 @@ import { PVOpsDashboard } from './components/PVOpsDashboard';
 import { FollowUpData, Medicine, Case } from './types';
 import './App.css';
 
-type ScreenType = 'home' | 'verify' | 'medicine' | 'timeline' | 'thankyou' | 'doctor' | 'dashboard';
+type ScreenType = 'home' | 'verify' | 'quickform' | 'emergency' | 'medicine' | 'guided-questions' | 'timeline' | 'thankyou' | 'doctor' | 'dashboard';
 
 // Mock data
 const mockCases: Case[] = [
@@ -119,8 +121,27 @@ function App() {
   const [currentScreen, setCurrentScreen] = useState<ScreenType>('home');
   const [submittedData, setSubmittedData] = useState<FollowUpData | null>(null);
   const [medicines, setMedicines] = useState<Medicine[]>([]);
+  const [quickFormData, setQuickFormData] = useState<QuickPatientFormData | null>(null);
 
   const handleVerify = () => {
+    setCurrentScreen('quickform');
+  };
+
+  const handleQuickFormComplete = (data: QuickPatientFormData) => {
+    setQuickFormData(data);
+    // Branch based on documents availability
+    if (data.documentsAvailable.length > 0) {
+      setCurrentScreen('medicine'); // Branch A: Upload available
+    } else {
+      setCurrentScreen('guided-questions'); // Branch B: Guided questions instead
+    }
+  };
+
+  const handleEmergency = () => {
+    setCurrentScreen('emergency');
+  };
+
+  const handleEmergencyContinue = () => {
     setCurrentScreen('medicine');
   };
 
@@ -199,9 +220,74 @@ function App() {
         </div>
       )}
 
+      {currentScreen === 'quickform' && (
+        <div className="min-h-screen py-12">
+          <QuickPatientForm
+            hospitalName="Apollo Hospitals"
+            onComplete={handleQuickFormComplete}
+            onEmergency={handleEmergency}
+          />
+        </div>
+      )}
+
+      {currentScreen === 'emergency' && (
+        <EmergencyGuidance
+          onCallBack={() => {
+            alert('Call-back requested. Safety team will contact you shortly.');
+            setCurrentScreen('home');
+          }}
+          onContinueAnyway={handleEmergencyContinue}
+        />
+      )}
+
       {currentScreen === 'medicine' && (
         <div className="min-h-screen py-12">
+          <div className="max-w-2xl mx-auto mb-8 px-4">
+            {quickFormData && (
+              <div className="bg-blue-50 border-l-4 border-medical-blue rounded-r-lg p-4 mb-6">
+                <p className="text-sm text-gray-700">
+                  <span className="font-semibold">Based on your answers:</span> Since you have{' '}
+                  <strong>
+                    {quickFormData.documentsAvailable.join(', ') || 'documents'}
+                  </strong>
+                  , you can upload photos below. (Optional: Type or skip if easier)
+                </p>
+              </div>
+            )}
+          </div>
           <MedicineUpload onComplete={handleMedicinesComplete} />
+        </div>
+      )}
+
+      {currentScreen === 'guided-questions' && (
+        <div className="min-h-screen bg-gradient-to-br from-medical-blue to-blue-600 py-12 px-4">
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-white rounded-2xl shadow-2xl p-8 text-center space-y-6">
+              <h1 className="text-3xl font-bold text-gray-800">
+                Let's Capture Medicine Information
+              </h1>
+              <p className="text-gray-600">
+                Since you don't have photos right now, we'll ask you a few guided questions. You can always upload photos later!
+              </p>
+
+              <div className="bg-green-50 border border-medical-green rounded-lg p-6 space-y-3 text-left">
+                <p className="font-semibold text-gray-800">We'll ask:</p>
+                <ul className="space-y-2 text-sm text-gray-700 list-disc list-inside">
+                  <li>How many medicines were you taking?</li>
+                  <li>Do you remember their names? (even approximate)</li>
+                  <li>Strength and how often you took them?</li>
+                  <li>When you started and stopped them?</li>
+                </ul>
+              </div>
+
+              <button
+                onClick={() => setCurrentScreen('medicine')}
+                className="w-full bg-medical-blue hover:bg-blue-700 text-white font-bold py-4 rounded-lg transition-colors"
+              >
+                Continue to Form
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
