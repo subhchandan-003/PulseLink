@@ -1,5 +1,6 @@
 import React from 'react';
 import { AlertTriangle, Phone, MapPin, Clock } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface EmergencyGuidanceProps {
   onCallBack: () => void;
@@ -10,6 +11,7 @@ export const EmergencyGuidance: React.FC<EmergencyGuidanceProps> = ({
   onCallBack,
   onContinueAnyway,
 }) => {
+  const { t } = useLanguage();
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center p-4">
       <div className="w-full max-w-2xl">
@@ -23,17 +25,17 @@ export const EmergencyGuidance: React.FC<EmergencyGuidanceProps> = ({
 
           <div>
             <h1 className="text-3xl font-bold text-gray-900 text-center mb-3">
-              Safety Alert
+              {t('emergencyAlert')}
             </h1>
             <p className="text-center text-gray-700">
-              You've indicated this needs urgent help. Please read carefully.
+              {t('needsImmediateHelp')}
             </p>
           </div>
 
           {/* Emergency Guidance */}
           <div className="bg-red-50 border-l-4 border-red-600 rounded-r-lg p-6 space-y-4">
             <p className="font-bold text-red-900 text-lg">
-              🚨 If this is a medical emergency:
+              🚨 {t('emergencyServices')}
             </p>
 
             <div className="space-y-4">
@@ -101,14 +103,14 @@ export const EmergencyGuidance: React.FC<EmergencyGuidanceProps> = ({
               className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <Phone size={20} />
-              Request Immediate Call-back from Safety Team
+              {t('requestCallBack')}
             </button>
 
             <button
               onClick={onContinueAnyway}
               className="w-full border-2 border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold py-4 rounded-lg transition-colors"
             >
-              I've taken emergency measures, Continue with Follow-up Form
+              {t('continueWithForm')}
             </button>
           </div>
 

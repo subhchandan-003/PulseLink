@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 import { FollowUpData, Medicine } from '../types';
 
 interface EventTimelineProps {
@@ -8,6 +9,7 @@ interface EventTimelineProps {
 }
 
 export const EventTimeline: React.FC<EventTimelineProps> = ({ medicines, onComplete }) => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     eventStartDate: '',
     eventEndDate: '',
@@ -65,8 +67,8 @@ export const EventTimeline: React.FC<EventTimelineProps> = ({ medicines, onCompl
   return (
     <div className="max-w-2xl mx-auto">
       <div className="bg-white rounded-xl shadow-lg p-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Event Timeline & Outcomes</h2>
-        <p className="text-gray-600 mb-8">Help us understand what happened and when</p>
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">{t('eventDetails')}</h2>
+        <p className="text-gray-600 mb-8">{t('addMoreInformation')}</p>
 
         {/* Caregiver Toggle */}
         <div className="mb-8 p-4 bg-blue-50 rounded-lg border border-blue-200">

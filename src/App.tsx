@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Globe } from 'lucide-react';
 import { VerifyScreen } from './components/VerifyScreen';
 import { QuickPatientForm, QuickPatientFormData } from './components/QuickPatientForm';
 import { EmergencyGuidance } from './components/EmergencyGuidance';
@@ -8,6 +9,7 @@ import { ThankYouScreen } from './components/ThankYouScreen';
 import { DoctorCaseSnapshot } from './components/DoctorCaseSnapshot';
 import { PVOpsDashboard } from './components/PVOpsDashboard';
 import { FollowUpData, Medicine, Case } from './types';
+import { LanguageProvider, useLanguage } from './i18n/LanguageContext';
 import './App.css';
 
 type ScreenType = 'home' | 'verify' | 'quickform' | 'emergency' | 'medicine' | 'guided-questions' | 'timeline' | 'thankyou' | 'doctor' | 'dashboard';
@@ -117,11 +119,13 @@ const mockCases: Case[] = [
   },
 ];
 
-function App() {
+function AppContent() {
+  const { currentLanguage, setLanguage, availableLanguages } = useLanguage();
   const [currentScreen, setCurrentScreen] = useState<ScreenType>('home');
   const [submittedData, setSubmittedData] = useState<FollowUpData | null>(null);
   const [medicines, setMedicines] = useState<Medicine[]>([]);
   const [quickFormData, setQuickFormData] = useState<QuickPatientFormData | null>(null);
+  const [languageSelectorOpen, setLanguageSelectorOpen] = useState(false);
 
   const handleVerify = () => {
     setCurrentScreen('quickform');
@@ -163,6 +167,38 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Language Switcher */}
+      <div className="fixed top-4 right-4 z-50">
+        <div className="relative">
+          <button
+            onClick={() => setLanguageSelectorOpen(!languageSelectorOpen)}
+            className="bg-medical-blue hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg flex items-center gap-2 transition-colors"
+          >
+            <Globe size={20} />
+            <span className="text-sm">{currentLanguage.toUpperCase()}</span>
+          </button>
+
+          {languageSelectorOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-2xl border border-gray-200 py-2 z-50">
+              {availableLanguages.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => {
+                    setLanguage(lang.code);
+                    setLanguageSelectorOpen(false);
+                  }}
+                  className={`w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors flex justify-between items-center ${
+                    currentLanguage === lang.code ? 'bg-blue-50 font-bold text-medical-blue' : 'text-gray-700'
+                  }`}
+                >
+                  <span>{lang.name}</span>
+                  {currentLanguage === lang.code && <span className="text-medical-blue">✓</span>}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
       {currentScreen === 'home' && (
         <div className="min-h-screen bg-gradient-to-br from-medical-blue to-blue-600 flex items-center justify-center p-4">
           <div className="max-w-2xl text-center text-white">
@@ -340,4 +376,10 @@ function App() {
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
+  );
+}

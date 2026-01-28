@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CheckCircle2, AlertCircle, Phone } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface VerifyScreenProps {
   onVerify: () => void;
@@ -8,6 +9,7 @@ interface VerifyScreenProps {
 }
 
 export const VerifyScreen: React.FC<VerifyScreenProps> = ({ onVerify, caseId, patientName }) => {
+  const { t } = useLanguage();
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [useCallBack, setUseCallBack] = useState(false);
@@ -33,10 +35,10 @@ export const VerifyScreen: React.FC<VerifyScreenProps> = ({ onVerify, caseId, pa
         </div>
 
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">
-          Verify Your Identity
+          {t('verifyPatient')}
         </h1>
         <p className="text-center text-gray-600 mb-6">
-          Hi <span className="font-semibold">{patientName}</span>
+          {t('welcome')} <span className="font-semibold">{patientName}</span>
         </p>
 
         {/* Trust Badge */}
@@ -44,8 +46,8 @@ export const VerifyScreen: React.FC<VerifyScreenProps> = ({ onVerify, caseId, pa
           <div className="flex items-start gap-3">
             <AlertCircle size={20} className="text-medical-blue flex-shrink-0 mt-1" />
             <div className="text-sm text-gray-700">
-              <p className="font-semibold mb-1">✓ Verified PulseLink Account</p>
-              <p className="text-xs">This is a legitimate follow-up from our medical team.</p>
+              <p className="font-semibold mb-1">✓ {t('trustBadge')}</p>
+              <p className="text-xs">{t('preventScams')}</p>
             </div>
           </div>
         </div>
@@ -53,7 +55,7 @@ export const VerifyScreen: React.FC<VerifyScreenProps> = ({ onVerify, caseId, pa
         {/* Purpose */}
         <div className="bg-gray-50 rounded-lg p-4 mb-6">
           <p className="text-sm text-gray-700">
-            <span className="font-semibold block mb-2">Why we're contacting you:</span>
+            <span className="font-semibold block mb-2">{t('patientInfo')}:</span>
             Safety follow-up about your recent medical case (Case #{caseId})
           </p>
           <p className="text-xs text-gray-500 mt-3">
@@ -67,19 +69,19 @@ export const VerifyScreen: React.FC<VerifyScreenProps> = ({ onVerify, caseId, pa
             {!otpSent ? (
               <>
                 <p className="text-sm text-gray-700 font-medium">
-                  We'll send a one-time code to verify you
+                  {t('otpSent')}
                 </p>
                 <button
                   onClick={handleSendOtp}
                   className="w-full bg-medical-blue hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors"
                 >
-                  Send OTP to WhatsApp
+                  {t('submit')}
                 </button>
               </>
             ) : (
               <>
                 <p className="text-sm text-gray-700 font-medium">
-                  Enter the 6-digit code sent to your WhatsApp
+                  {t('enterOTP')}
                 </p>
                 <div className="space-y-3">
                   <input
@@ -95,14 +97,14 @@ export const VerifyScreen: React.FC<VerifyScreenProps> = ({ onVerify, caseId, pa
                     disabled={otp.length !== 6}
                     className="w-full bg-medical-green hover:bg-green-700 disabled:bg-gray-300 text-white font-semibold py-3 rounded-lg transition-colors"
                   >
-                    Verify
+                    {t('confirm')}
                   </button>
                 </div>
                 <button
                   onClick={() => setOtpSent(false)}
                   className="w-full text-medical-blue text-sm font-medium hover:underline"
                 >
-                  Didn't receive code? Resend
+                  {t('didNotReceiveOTP')} {t('tryAgain').toLowerCase()}
                 </button>
               </>
             )}
@@ -115,7 +117,7 @@ export const VerifyScreen: React.FC<VerifyScreenProps> = ({ onVerify, caseId, pa
             <div className="w-full border-t border-gray-300" />
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">Or</span>
+            <span className="px-2 bg-white text-gray-500">{t('cancel').toLowerCase()}</span>
           </div>
         </div>
 
@@ -123,7 +125,7 @@ export const VerifyScreen: React.FC<VerifyScreenProps> = ({ onVerify, caseId, pa
           <div className="bg-green-50 border-2 border-medical-green rounded-lg p-4 mb-6">
             <div className="flex items-center gap-3 mb-3">
               <Phone size={20} className="text-medical-green" />
-              <p className="font-semibold text-gray-800">We'll call you in 30 seconds</p>
+              <p className="font-semibold text-gray-800">{t('requestCallback')}</p>
             </div>
             <p className="text-sm text-gray-700">
               A team member will call to verify your identity and walk you through the follow-up form.
@@ -132,7 +134,7 @@ export const VerifyScreen: React.FC<VerifyScreenProps> = ({ onVerify, caseId, pa
               onClick={onVerify}
               className="w-full mt-4 bg-medical-green hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-colors"
             >
-              Proceed
+              {t('continue')}
             </button>
           </div>
         ) : (
@@ -141,7 +143,7 @@ export const VerifyScreen: React.FC<VerifyScreenProps> = ({ onVerify, caseId, pa
             className="w-full border-2 border-medical-blue text-medical-blue hover:bg-blue-50 font-semibold py-3 rounded-lg transition-colors"
           >
             <Phone size={18} className="inline mr-2" />
-            Request a Call-back
+            {t('requestCallback')}
           </button>
         )}
 

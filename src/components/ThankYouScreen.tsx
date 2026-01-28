@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckCircle2, Heart, HelpCircle, MessageCircle } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 import { FollowUpData } from '../types';
 
 interface ThankYouScreenProps {
@@ -8,6 +9,7 @@ interface ThankYouScreenProps {
 }
 
 export const ThankYouScreen: React.FC<ThankYouScreenProps> = ({ data, onClose }) => {
+  const { t } = useLanguage();
   const [showSupport, setShowSupport] = React.useState(false);
 
   return (
@@ -22,9 +24,9 @@ export const ThankYouScreen: React.FC<ThankYouScreenProps> = ({ data, onClose })
             </div>
 
             <h1 className="text-3xl font-bold text-gray-800 mb-3">Thank You!</h1>
-            <p className="text-gray-600 mb-2">Your follow-up form has been submitted successfully</p>
+            <p className="text-gray-600 mb-2">{t('success')}</p>
             <p className="text-sm text-gray-500 mb-8">
-              Case ID: <span className="font-mono font-semibold">{data.caseId}</span>
+              {t('caseID')}: <span className="font-mono font-semibold">{data.caseId}</span>
             </p>
 
             {/* Summary */}

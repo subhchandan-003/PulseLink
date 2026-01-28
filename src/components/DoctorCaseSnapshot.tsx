@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AlertCircle, CheckCircle2, Flag, Phone, FileText } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 import { Case, Medicine } from '../types';
 
 interface DoctorCaseSnapshotProps {
@@ -15,6 +16,7 @@ interface DoctorCaseSnapshotProps {
 }
 
 export const DoctorCaseSnapshot: React.FC<DoctorCaseSnapshotProps> = ({ caseData, onConfirm }) => {
+  const { t } = useLanguage();
   const [selectedAction, setSelectedAction] = useState<string | null>(null);
 
   const getRiskColor = (risk: string) => {
@@ -75,7 +77,7 @@ export const DoctorCaseSnapshot: React.FC<DoctorCaseSnapshotProps> = ({ caseData
           {/* Suspect Medicines */}
           <div>
             <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-              <FileText size={20} /> Reported Medicines
+              <FileText size={20} /> {t('medicineConfirmed')}
             </h2>
             <div className="space-y-3">
               {caseData.medicines.map((med, idx) => (

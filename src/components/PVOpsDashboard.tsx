@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BarChart3, AlertTriangle, TrendingUp, Clock, CheckCircle2, Flag, Search } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 import { Case } from '../types';
 
 interface PVOpsDashboardProps {
@@ -7,6 +8,7 @@ interface PVOpsDashboardProps {
 }
 
 export const PVOpsDashboard: React.FC<PVOpsDashboardProps> = ({ cases }) => {
+  const { t } = useLanguage();
   const [filterRisk, setFilterRisk] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCase, setSelectedCase] = useState<Case | null>(null);
@@ -58,8 +60,8 @@ export const PVOpsDashboard: React.FC<PVOpsDashboardProps> = ({ cases }) => {
       <div className="max-w-7xl mx-auto p-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">PV Operations Dashboard</h1>
-          <p className="text-gray-600">Risk-based case management and completion tracking</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">{t('pvOpsDashboard')}</h1>
+          <p className="text-gray-600">{t('dashboard')}</p>
         </div>
 
         {/* KPI Cards */}

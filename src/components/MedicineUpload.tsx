@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Upload, CheckCircle2, AlertCircle, Edit2 } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 import { Medicine } from '../types';
 
 interface MedicineUploadProps {
@@ -7,6 +8,7 @@ interface MedicineUploadProps {
 }
 
 export const MedicineUpload: React.FC<MedicineUploadProps> = ({ onComplete }) => {
+  const { t } = useLanguage();
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [extractedMedicines, setExtractedMedicines] = useState<Medicine[]>([]);
   const [step, setStep] = useState<'upload' | 'confirm'>('upload');
@@ -79,17 +81,17 @@ export const MedicineUpload: React.FC<MedicineUploadProps> = ({ onComplete }) =>
     <div className="max-w-2xl mx-auto">
       {step === 'upload' ? (
         <div className="bg-white rounded-xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Upload Medicine Information</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">{t('medicineScan')}</h2>
           <p className="text-gray-600 mb-8">
-            Take a photo of your prescription, medicine strip, or medical bill
+            {t('uploadMedicineImage')}
           </p>
 
           {!uploadedImage ? (
             <label className="flex flex-col items-center justify-center border-2 border-dashed border-medical-blue rounded-xl p-12 cursor-pointer hover:bg-blue-50 transition-colors">
               <Upload size={48} className="text-medical-blue mb-4" />
-              <p className="text-lg font-semibold text-gray-800 mb-2">Upload Image</p>
+              <p className="text-lg font-semibold text-gray-800 mb-2">{t('uploadImage')}</p>
               <p className="text-sm text-gray-600 mb-6">
-                Prescription • Medicine Strip • Medical Bill
+                {t('prescription')} • {t('medicineStrip')} • {t('medicineBill')}
               </p>
               <span className="text-xs text-gray-500">JPG, PNG - up to 10MB</span>
               <input
@@ -133,7 +135,7 @@ export const MedicineUpload: React.FC<MedicineUploadProps> = ({ onComplete }) =>
       ) : (
         <div className="space-y-6">
           <div className="bg-white rounded-xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Confirm Your Medicines</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">{t('confirmMedicine')}</h2>
 
             {extractedMedicines.map((medicine, index) => (
               <div key={medicine.id} className="mb-6 last:mb-0 border-b last:border-b-0 pb-6 last:pb-0">

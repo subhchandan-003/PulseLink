@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CheckCircle2, AlertCircle, Heart, Phone, ChevronRight } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface QuickPatientFormProps {
   hospitalName: string;
@@ -22,6 +23,7 @@ export const QuickPatientForm: React.FC<QuickPatientFormProps> = ({
   onComplete,
   onEmergency,
 }) => {
+  const { t } = useLanguage();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [formData, setFormData] = useState<QuickPatientFormData>({
     fillingFor: 'self',
