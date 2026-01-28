@@ -1,7 +1,7 @@
 // Comprehensive translations for PulseLink in multiple languages
 // English, Hindi, Tamil, Telugu, Marathi
 
-export type LanguageCode = 'en' | 'hi' | 'ta' | 'te' | 'mr';
+export type LanguageCode = 'en' | 'hi' | 'ta' | 'te' | 'mr' | 'bn' | 'gu' | 'kn' | 'ml' | 'or' | 'pa' | 'ur' | 'as' | 'kok' | 'mai' | 'ks' | 'sd' | 'sa';
 
 export interface Translations {
   submit: string; cancel: string; next: string; back: string; continue: string; confirm: string;
@@ -289,8 +289,23 @@ const taTranslations: Translations = {
   anyOtherSymptoms: 'तुम्हांला इतर कोणी लक्षणें जाणवल्या का?', whenDidItStart: 'समस्या कधी सुरू झाली?',
 };
 
-const teTranslations: Translations = enTranslations; // Simplified for brevity
-const mrTranslations: Translations = enTranslations; // Simplified for brevity
+const teTranslations: Translations = enTranslations;
+const mrTranslations: Translations = enTranslations;
+
+// Additional languages - using English as fallback for now
+const bnTranslations: Translations = enTranslations;
+const guTranslations: Translations = enTranslations;
+const knTranslations: Translations = enTranslations;
+const mlTranslations: Translations = enTranslations;
+const orTranslations: Translations = enTranslations;
+const paTranslations: Translations = enTranslations;
+const urTranslations: Translations = enTranslations;
+const asTranslations: Translations = enTranslations;
+const kokTranslations: Translations = enTranslations;
+const maiTranslations: Translations = enTranslations;
+const ksTranslations: Translations = enTranslations;
+const sdTranslations: Translations = enTranslations;
+const saTranslations: Translations = enTranslations;
 
 export const translations: Record<LanguageCode, Translations> = {
   en: enTranslations,
@@ -298,6 +313,19 @@ export const translations: Record<LanguageCode, Translations> = {
   ta: taTranslations,
   te: teTranslations,
   mr: mrTranslations,
+  bn: bnTranslations,
+  gu: guTranslations,
+  kn: knTranslations,
+  ml: mlTranslations,
+  or: orTranslations,
+  pa: paTranslations,
+  ur: urTranslations,
+  as: asTranslations,
+  kok: kokTranslations,
+  mai: maiTranslations,
+  ks: ksTranslations,
+  sd: sdTranslations,
+  sa: saTranslations,
 };
 
 export const getTranslation = (languageCode: LanguageCode, key: keyof Translations): string => {

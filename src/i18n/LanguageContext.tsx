@@ -12,10 +12,23 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 const AVAILABLE_LANGUAGES: { code: LanguageCode; name: string }[] = [
   { code: 'en', name: 'English' },
-  { code: 'hi', name: 'हिंदी' },
-  { code: 'ta', name: 'தமிழ்' },
-  { code: 'te', name: 'తెలుగు' },
-  { code: 'mr', name: 'मराठी' },
+  { code: 'hi', name: 'हिंदी (Hindi)' },
+  { code: 'bn', name: 'বাংলা (Bengali)' },
+  { code: 'te', name: 'తెలుగు (Telugu)' },
+  { code: 'mr', name: 'मराठी (Marathi)' },
+  { code: 'ta', name: 'தமிழ் (Tamil)' },
+  { code: 'gu', name: 'ગુજરાતી (Gujarati)' },
+  { code: 'ur', name: 'اردو (Urdu)' },
+  { code: 'kn', name: 'ಕನ್ನಡ (Kannada)' },
+  { code: 'or', name: 'ଓଡିଆ (Odia)' },
+  { code: 'ml', name: 'മലയാളം (Malayalam)' },
+  { code: 'pa', name: 'ਪੰਜਾਬੀ (Punjabi)' },
+  { code: 'as', name: 'অসমীয়া (Assamese)' },
+  { code: 'mai', name: 'मैथिली (Maithili)' },
+  { code: 'kok', name: 'कोंकणी (Konkani)' },
+  { code: 'ks', name: 'کشمیری (Kashmiri)' },
+  { code: 'sd', name: 'سنڌي (Sindhi)' },
+  { code: 'sa', name: 'संस्कृत (Sanskrit)' },
 ];
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
